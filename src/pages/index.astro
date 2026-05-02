@@ -1,5 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
+// import Card from "../components/Card.astro";
+// import { ProductCatalog } from "../lib/product";
+
+// const catalog = new ProductCatalog();
+// Obtenemos 3 piezas destacadas usando OOP
+// const featuredJewelry = catalog.getAllProducts().slice(0, 3);
 ---
 
 <Layout style="bg-stone-50">
@@ -34,7 +40,7 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </main>
 
-  <!-- > Feautured products -->
+  <!-- >Feautured products -->
   <section class="container mx-auto px-6 py-20">
     <div class="flex flex-col md:flex-row justify-between items-baseline mb-12">
       <h2 class="text-3xl font-light text-stone-900 font-serif">
@@ -48,6 +54,8 @@ import Layout from "../layouts/Layout.astro";
       </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12"></div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <!-- {featuredJewelry.map((piece) => <Card product={piece} />)} -->
+    </div>
   </section>
 </Layout>
