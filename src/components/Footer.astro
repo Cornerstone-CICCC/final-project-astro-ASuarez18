@@ -1,3 +1,91 @@
 ---
-
+const currentYear = new Date().getFullYear();
 ---
+
+<footer class="bg-stone-900 text-stone-400 py-16 mt-20">
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <!-- >  1 Branding -->
+    <div class="flex flex-col gap-6">
+      <div class="flex flex-col">
+        <h2
+          class="text-xl font-light tracking-[0.3em] uppercase text-white font-serif leading-none"
+        >
+          Aura & Arc
+        </h2>
+        <span
+          class="text-[10px] tracking-[0.2em] uppercase text-amber-600 font-medium mt-2"
+        >
+          Fine Jewelry
+        </span>
+      </div>
+      <p class="text-sm leading-relaxed">
+        Pieces designed with technical precision and timeless beauty. Curated
+        with passion from the heart of British Columbia.
+      </p>
+    </div>
+
+    <!-- > 2. Navegation -->
+    <div>
+      <h3
+        class="text-white font-semibold mb-6 uppercase text-xs tracking-[0.2em]"
+      >
+        Navegation
+      </h3>
+      <ul class="flex flex-col gap-3 text-sm">
+        <li>
+          <a href="/" class="hover:text-amber-500 transition-colors">Home</a>
+        </li>
+        <li>
+          <a href="/products" class="hover:text-amber-500 transition-colors"
+            >Full Collection</a>
+        </li>
+        <li>
+          <a href="/about" class="hover:text-amber-500 transition-colors"
+            >About</a>
+        </li>
+        <li>
+          <a href="/reflection" class="hover:text-amber-500 transition-colors"
+            >Reflection</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- > 3. About me (ASG)  -->
+    <div>
+      <h3
+        class="text-white font-semibold mb-6 uppercase text-xs tracking-[0.2em]"
+      >
+        Developed by
+      </h3>
+      <p class="text-sm font-light">Alejandro</p>
+      <p class="text-xs italic text-stone-500 mt-1">Web Development Student</p>
+      <p class="text-sm mt-3">Vancouver, BC</p>
+    </div>
+
+    <!-- > 4. Contact -->
+    <div>
+      <h3
+        class="text-white font-semibold mb-6 uppercase text-xs tracking-[0.2em]"
+      >
+        Contacto
+      </h3>
+      <a
+        href="mailto:info@aura-arc.com"
+        class="text-sm hover:text-white transition-colors border-b border-stone-700 pb-1"
+      >
+        info@aura-arc.com
+      </a>
+      <p class="text-[10px] uppercase tracking-widest text-stone-500 mt-6">
+        Established 2026
+      </p>
+    </div>
+  </div>
+
+  <!-- > 5. Copyright -->
+  <div class="border-t border-stone-800 mt-16 pt-8 text-center">
+    <p class="text-[10px] uppercase tracking-[0.3em] text-stone-600">
+      &copy; {currentYear} Aura & Arc Fine Jewelry. <br class="md:hidden" />
+      Built with Astro, TypeScript & OOP.
+    </p>
+  </div>
+</footer>
