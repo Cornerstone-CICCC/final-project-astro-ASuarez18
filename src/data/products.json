@@ -98,5 +98,25 @@
     "image": "/images/minimalist-watch.webp",
     "description": "Modern minimalist watch with clean dial design.",
     "inStock": true
+  },
+  {
+    "id": 11,
+    "title": "Multistone Engagement Ring",
+    "slug": "multistone-engagement-ring",
+    "price": 2605.00,
+    "category": "rings",
+    "image": "/images/multistone-ring.webp",
+    "description": "Engagement ring featuring a stunning multistone design.",
+    "inStock": true
+  },
+  {
+    "id": 12,
+    "title": "Marquise Stud",
+    "slug": "marquise-stud",
+    "price": 589.99,
+    "category": "earrings",
+    "image": "/images/marquise-stud.webp",
+    "description": "Marquise cut stud earrings with a brilliant sparkle.",
+    "inStock": false
   }
 ]

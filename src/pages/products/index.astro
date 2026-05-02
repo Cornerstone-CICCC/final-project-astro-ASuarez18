@@ -5,54 +5,175 @@ import { ProductCatalog } from "../../lib/product";
 
 const catalog = new ProductCatalog();
 const allProducts = catalog.getAllProducts();
+
+const categories = [...new Set(allProducts.map((p) => p.category))];
 ---
 
 <Layout style="bg-stone-50">
-  <!-- >Header -->
+  <!-- > Header -->
   <header class="bg-white border-b border-stone-200 pt-32 pb-16">
     <div class="container mx-auto px-6">
-      <span class="text-amber-600 font-medium tracking-[0.2em] uppercase text-xs mb-3 block">
+      <span
+        class="text-amber-600 font-medium tracking-[0.2em] uppercase text-xs mb-3 block"
+      >
         Vancouver Boutique
       </span>
-      <h1 class="text-4xl md:text-5xl font-light text-stone-900 font-serif mb-6">
+      <h1
+        class="text-4xl md:text-5xl font-light text-stone-900 font-serif mb-6"
+      >
         Full Collection
       </h1>
       <p class="text-stone-500 max-w-xl font-light leading-relaxed">
-        Explore our complete catalog of meticulously crafted pieces, where 
+        Explore our complete catalog of meticulously crafted pieces, where
         architectural precision meets timeless elegance.
       </p>
     </div>
   </header>
 
   <!-- > Filters -->
-  <section class="sticky top-0 z-10 bg-stone-50/80 backdrop-blur-md border-b border-stone-200 py-4">
-    <div class="container mx-auto px-6 flex flex-wrap gap-4 items-center justify-between">
-      <div id="filter-container" class="flex gap-2">
-        <!-- TODO Buttons of filter by category -->
-        <span class="text-[10px] uppercase tracking-widest text-stone-400 font-bold">
-          Filter by Category:
+  <section
+    class="sticky top-0 z-10 bg-stone-50/80 backdrop-blur-md border-b border-stone-200 py-4"
+  >
+    <div
+      class="container mx-auto px-6 flex flex-wrap gap-4 items-center justify-between"
+    >
+      <div id="filter-container" class="flex flex-wrap items-center gap-3">
+        <span
+          class="text-[10px] uppercase tracking-[0.2em] text-stone-400 font-bold mr-2"
+        >
+          Filter by:
         </span>
+
+        <!-- ? All -->
+        <button
+          data-category="all"
+          class="filter-btn px-4 py-1.5 text-[10px] uppercase tracking-widest font-bold transition-all border border-stone-900 bg-stone-900 text-white rounded-full shadow-sm hover:shadow-md hover:cursor-pointer"
+        >
+          All Pieces
+        </button>
+
+        <!-- ? Other categories  -->
+        {
+          categories.map((cat) => (
+            <button
+              data-category={cat}
+              class="filter-btn px-4 py-1.5 text-[10px] uppercase tracking-widest font-bold transition-all border border-stone-200 bg-white text-stone-500 rounded-full hover:cursor-pointer hover:shadow-md shadow-sm"
+            >
+              {cat}
+            </button>
+          ))
+        }
       </div>
-      <p class="text-xs text-stone-400 italic">
-        Showing {allProducts.length} pieces
+
+      <p class="text-xs text-stone-400 italic font-serif">
+        Showing <span id="product-count">{allProducts.length}</span> pieces
       </p>
     </div>
   </section>
 
   <!-- > Product Grid -->
   <section class="container mx-auto px-6 py-16">
-    <div 
-      id="product-grid" 
+    <div
+      id="product-grid"
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12"
     >
-      {allProducts.map((product) => (
-        <ProductCard product={product} />
-      ))}
+      {allProducts.map((product) => <ProductCard product={product} />)}
     </div>
 
     <!-- > Empty State -->
     <div id="no-results" class="hidden text-center py-20">
-      <p class="text-stone-400 font-serif text-xl">No pieces found in this category.</p>
+      <p class="text-stone-400 font-serif text-xl">
+        No pieces found in this category.
+      </p>
     </div>
   </section>
 </Layout>
+
+<script>
+  import $ from "jquery";
+  import { ProductCatalog } from "../../lib/product";
+
+  const catalog = new ProductCatalog();
+  const allProducts = catalog.getAllProducts();
+
+  /**
+   * @function filterProducts
+   * @description Filters products based on the selected category and updates the UI accordingly.
+   * @param {string} category - Selected category to filter by 
+   */
+  function filterProducts(category: string): void {
+    const $grid = $("#product-grid");
+    const $noResults = $("#no-results");
+    const $count = $("#product-count");
+
+    // Filter using getProductsByCategory
+    const filtered =
+      category === "all"
+        ? allProducts
+        : catalog.getProductsByCategory(category);
+
+    // Clean previous results
+    $grid.empty();
+
+    // Update product count
+    $count.text(filtered.length);
+
+    if (filtered.length === 0) {
+      $noResults.removeClass("hidden");
+    } else {
+      $noResults.addClass("hidden");
+
+      // Insert new results
+      filtered.forEach((product) => {
+        // HTML structure for each product card (same as ProductCard.astro)
+        const cardHtml = `
+          <article class="group product-card opacity-0" data-category="${product.category}">
+            <a href="/products/${product.getSlug()}" class="block no-underline">
+              <div class="relative aspect-square overflow-hidden bg-stone-200 mb-4 rounded-sm border border-stone-100 shadow-sm">
+                <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                ${
+                  !product.isInStock()
+                    ? `
+                  <div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1">
+                    <span class="text-[9px] uppercase tracking-tighter text-stone-500 font-bold">Out of Stock</span>
+                  </div>
+                `
+                    : ""
+                }
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-stone-900 font-serif text-lg font-light group-hover:text-amber-700">${product.title}</h3>
+                <div class="flex justify-between items-center">
+                  <p class="text-amber-600 font-medium text-sm">${product.getFormattedPrice()}</p>
+                  <span class="text-[10px] text-stone-400 uppercase tracking-widest font-bold">${product.category}</span>
+                </div>
+              </div>
+            </a>
+          </article>
+        `;
+
+        const $card = $(cardHtml);
+        $grid.append($card);
+
+        // Animation ease-in for new cards
+        setTimeout(() => $card.animate({ opacity: 1 }, 400), 50);
+      });
+    }
+  }
+
+  // Click event for filter buttons
+  $(document).on("click", ".filter-btn", function (e: JQuery.ClickEvent) {
+    const $btn = $(e.currentTarget);
+    const category = $btn.data("category");
+    
+    $(".filter-btn")
+      .removeClass("bg-stone-900 text-white border-stone-900")
+      .addClass("bg-white text-stone-500 border-stone-200");
+
+    $btn
+      .removeClass("bg-white text-stone-500 border-stone-200")
+      .addClass("bg-stone-900 text-white border-stone-900");
+
+    filterProducts(category);
+  });
+</script>
