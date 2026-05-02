@@ -1,3 +1,116 @@
 ---
+import Layout from "../../layouts/Layout.astro";
+import { ProductCatalog, type Product } from "../../lib/product";
 
+export async function getStaticPaths() {
+  const catalog = new ProductCatalog();
+  const products = catalog.getAllProducts();
+
+  return products.map((product: Product) => ({
+    params: { slug: product.getSlug() },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
 ---
+
+<Layout style="bg-stone-50">
+  <main class="container mx-auto px-6 py-24 md:py-32">
+    <!-- > Return to collection -->
+    <nav class="mb-10">
+      <a
+        href="/products"
+        class="text-stone-400 hover:text-amber-600 text-xs uppercase tracking-widest transition-colors"
+      >
+        ← Back to Collection
+      </a>
+    </nav>
+
+    <!-- > Details  -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <!-- Image -->
+      <div
+        class="bg-white border border-stone-200 rounded-sm overflow-hidden shadow-sm"
+      >
+        <img
+          src={product.image}
+          alt={product.title}
+          class="w-full h-auto object-cover aspect-square hover:scale-105 transition-transform duration-1000"
+        />
+      </div>
+
+      <!-- Info -->
+      <div class="space-y-8">
+        <div>
+          <span
+            class="text-amber-600 font-medium tracking-[0.2em] uppercase text-xs mb-3 block"
+          >
+            {product.category}
+          </span>
+          <h1
+            class="text-4xl md:text-5xl font-light text-stone-900 font-serif mb-4"
+          >
+            {product.title}
+          </h1>
+          <p class="text-2xl text-stone-800 font-light">
+            {product.getFormattedPrice()}
+          </p>
+        </div>
+
+        <div class="border-t border-stone-200 pt-8">
+          <h2
+            class="text-xs uppercase tracking-widest text-stone-400 font-bold mb-4"
+          >
+            Description
+          </h2>
+          <p class="text-stone-600 leading-relaxed font-light text-lg">
+            {product.description}
+          </p>
+        </div>
+
+        <!-- inStock and buy btn -->
+        <div class="border-t border-stone-200 pt-8 space-y-6">
+          <div class="flex items-center gap-3">
+            <div
+              class={`w-2 h-2 rounded-full ${product.isInStock() ? "bg-green-500" : "bg-red-500"}`}
+            >
+            </div>
+            <span class="text-sm text-stone-500 uppercase tracking-tighter">
+              {
+                product.isInStock()
+                  ? "Available in Vancouver Boutique"
+                  : "Out of Stock"
+              }
+            </span>
+          </div>
+
+          <button
+            disabled={!product.isInStock()}
+            class="w-full bg-stone-900 text-white py-4 rounded-sm uppercase text-xs tracking-[0.2em] font-bold transition-all ease-in-out hover:bg-stone-800 disabled:bg-stone-300 disabled:cursor-not-allowed hover:shadow-lg hover:cursor-pointer disabled:shadow-none active:scale-[0.98]"
+          >
+            {product.isInStock() ? "Inquire for Purchase" : "Join Waitlist"}
+          </button>
+        </div>
+
+        <div class="bg-stone-100 p-6 rounded-sm border border-stone-200 mt-12">
+          <h4
+            class="text-[10px] text-amber-600 uppercase tracking-[0.2em] font-bold mb-3"
+          >
+            Craftsmanship & Care
+          </h4>
+          <p class="text-xs text-stone-500 leading-relaxed font-light">
+            Each Aura & Arc piece is meticulously inspected in our Vancouver
+            studio. We guarantee the structural integrity and timeless finish of
+            this {product.category.toLowerCase()}, designed to be as enduring as
+            it is elegant.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

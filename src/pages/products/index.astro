@@ -1,7 +1,58 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import { ProductCatalog } from "../../lib/product";
+
+const catalog = new ProductCatalog();
+const allProducts = catalog.getAllProducts();
 ---
 
 <Layout style="bg-stone-50">
-  
+  <!-- >Header -->
+  <header class="bg-white border-b border-stone-200 pt-32 pb-16">
+    <div class="container mx-auto px-6">
+      <span class="text-amber-600 font-medium tracking-[0.2em] uppercase text-xs mb-3 block">
+        Vancouver Boutique
+      </span>
+      <h1 class="text-4xl md:text-5xl font-light text-stone-900 font-serif mb-6">
+        Full Collection
+      </h1>
+      <p class="text-stone-500 max-w-xl font-light leading-relaxed">
+        Explore our complete catalog of meticulously crafted pieces, where 
+        architectural precision meets timeless elegance.
+      </p>
+    </div>
+  </header>
+
+  <!-- > Filters -->
+  <section class="sticky top-0 z-10 bg-stone-50/80 backdrop-blur-md border-b border-stone-200 py-4">
+    <div class="container mx-auto px-6 flex flex-wrap gap-4 items-center justify-between">
+      <div id="filter-container" class="flex gap-2">
+        <!-- TODO Buttons of filter by category -->
+        <span class="text-[10px] uppercase tracking-widest text-stone-400 font-bold">
+          Filter by Category:
+        </span>
+      </div>
+      <p class="text-xs text-stone-400 italic">
+        Showing {allProducts.length} pieces
+      </p>
+    </div>
+  </section>
+
+  <!-- > Product Grid -->
+  <section class="container mx-auto px-6 py-16">
+    <div 
+      id="product-grid" 
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12"
+    >
+      {allProducts.map((product) => (
+        <ProductCard product={product} />
+      ))}
+    </div>
+
+    <!-- > Empty State -->
+    <div id="no-results" class="hidden text-center py-20">
+      <p class="text-stone-400 font-serif text-xl">No pieces found in this category.</p>
+    </div>
+  </section>
 </Layout>

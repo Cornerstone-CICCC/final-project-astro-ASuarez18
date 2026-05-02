@@ -44,12 +44,25 @@ export class Product {
 
   /**
    * @method price
-   * @description Getter for the price property. It allows us to access the price of the product 
+   * @description Getter for the price property. It allows us to access the price of the product
    * while keeping the actual property private.
    * @returns {number} The price of the product.
    */
   public get price(): number {
     return this._price;
+  }
+
+  /**
+   * @method price
+   * @description Setter for the price property.
+   * It allows us to set the price of the product while keeping the actual property private.
+   * @param {number} value - The new price to set for the product.
+   */
+  public set price(value: number) {
+    if (value < 0) {
+      throw new Error("Price cannot be negative.");
+    }
+    this._price = value;
   }
 
   /**
@@ -108,7 +121,7 @@ export class ProductCatalog {
 
   /**
    * @method getProductBySlug
-   * @description Returns a single product that matches the given slug. This is useful for detail pages 
+   * @description Returns a single product that matches the given slug. This is useful for detail pages
    * where we need to find a product based on its URL slug.
    * @param {string} slug - The slug string to search for.
    * @returns {Product | undefined} The Product instance that matches the slug, or undefined if no match is found.
@@ -119,7 +132,7 @@ export class ProductCatalog {
 
   /**
    * @method getProductsByCategory
-   * @description Returns an array of products that belong to the specified category. 
+   * @description Returns an array of products that belong to the specified category.
    * This allows us to filter products based on their category for category pages or filtering functionality.
    * @param {string} category - The category string to filter products by.
    * @return {Product[]} An array of Product instances that belong to the specified category. If no products match, an empty array is returned.
