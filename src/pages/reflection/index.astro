@@ -1,0 +1,186 @@
+---
+// src/pages/reflection.astro
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Project Reflection | Aura & Arc">
+  <main class="bg-[#fafaf9] min-h-screen py-16 px-6">
+    <article class="max-w-3xl mx-auto space-y-12 text-stone-800">
+      <!-- Header -->
+      <header class="border-b border-stone-200 pb-8">
+        <h1 class="text-4xl font-serif text-stone-900 mb-6">
+          Project Reflection: Aura & Arc
+        </h1>
+      </header>
+
+      <!-- Section 1 -->
+      <section class="space-y-4">
+        <h2
+          class="text-2xl font-serif text-stone-900 border-l-4 border-stone-900 pl-4"
+        >
+          1. Product Pages Approach: Dynamic Routing
+        </h2>
+        <p class="leading-relaxed">
+          For the product detail pages, I chose the Dynamic Routing approach
+          using Astro's [slug].astro pattern.
+        </p>
+
+        <div class="pl-5 space-y-6">
+          <div>
+            <h3 class="text-xl font-bold text-stone-900 mb-1">
+              Why I chose it
+            </h3>
+            <p>
+              This approach allows the application to generate a unique,
+              SEO-friendly URL for every item in the products.json file
+              automatically. So you can avoid creating 10 separate HTML files
+              for each item. It's like using a reusable component. Its clean and
+              gives performance
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold text-stone-900">
+              Benefits over Alternatives
+            </h3>
+            <ul class="list-none space-y-3">
+              <li>
+                <strong class="text-stone-900">Scalability:</strong> Instead of creating
+                page for page every time you need one, lets say the collection expands
+                to 100 items, the codebase remains the same size.
+              </li>
+              <li>
+                <strong class="text-stone-900">Maintainability:</strong> Any design
+                change made in [slug].astro (like changing the "Inquire for Purchase"
+                button color) is instantly reflected across all products. So you don't
+                need to change in each of the product pages.
+              </li>
+              <li>
+                <strong class="text-stone-900">Performance:</strong> Compared to a
+                purely Client-Side Rendering (CSR) approach, given the dynamic routing
+                these pages are pre-rended at build time, so the load speeds are fast.
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold text-stone-900">
+              Limitations and Trade-offs
+            </h3>
+            <ul class="list-none space-y-2">
+              <li>
+                <strong class="text-stone-900">Build Time:</strong> As the catalog
+                grows significantly (1000s items), the time required to build the
+                project increases, as Astro must generate an HTML file for each product.
+              </li>
+              <li>
+                <strong class="text-stone-900">Static Nature:</strong> Since pages
+                are generated at build time, real-time stock updates would require
+                a re-deployment.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="space-y-4">
+        <h2
+          class="text-2xl font-serif text-stone-900 border-l-4 border-stone-900 pl-4"
+        >
+          2. Object-Oriented Programming (OOP) Implementation
+        </h2>
+        <p>
+          The core logic is encapsulated in <code
+            class="bg-stone-200 px-1 rounded text-sm">lib/product.ts</code
+          >, following strict OOP principles:
+        </p>
+        <ul class="pl-5 list-none space-y-3">
+          <li>
+            <strong class="text-stone-900">Encapsulation:</strong> I used private
+            properties (_price) to protect it, given we don't want it to be able to
+            be modified.
+          </li>
+          <li>
+            <strong class="text-stone-900">Domain Methods:</strong> I implemented
+            getFormattedPrice() and isInStock() within the Product class. This ensures
+            that the UI components don't need to know how to format currency; they
+            simply ask the object for its formatted string.
+          </li>
+          <li>
+            <strong class="text-stone-900">Data Integrity:</strong> The ProductCatalog
+            class ensures that raw JSON is always transformed into validated Class
+            instances before reaching the UI.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="space-y-4">
+        <h2
+          class="text-2xl font-serif text-stone-900 border-l-4 border-stone-900 pl-4"
+        >
+          3. TypeScript & Technical Structure
+        </h2>
+        <p class="pl-5">
+          <strong class="text-stone-900">Type Safety:</strong> I defined the ProductData
+          interface for raw JSON and used the Product class as a type for component
+          Props. This ensures that if a property is missing or mistyped in the data,
+          the build will fail immediately rather than breaking for the user.
+        </p>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="space-y-4">
+        <h2
+          class="text-2xl font-serif text-stone-900 border-l-4 border-stone-900 pl-4"
+        >
+          4. Interactive Feature: The Category Filter
+        </h2>
+        <p>
+          I implemented a category filter on the main products page using
+          jQuery.
+        </p>
+        <ul class="pl-5 list-none space-y-3">
+          <li>
+            <strong class="text-stone-900">Mechanism:</strong> The filter listens
+            for clicks on category buttons, clears the grid via jQuery's .empty()
+            method, and re-renders the filtered list using the getProductsByCategory
+            methods.
+          </li>
+          <li>
+            <strong class="text-stone-900">User Experience:</strong> Added smooth
+            CSS and jQuery animations to provide a premium "boutique" feel during
+            transitions, keeping the state in plain variables as requested.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 5 -->
+      <section class="space-y-4">
+        <h2
+          class="text-2xl font-serif text-stone-900 border-l-4 border-stone-900 pl-4"
+        >
+          5. Conclusion
+        </h2>
+        <div class="pl-5 space-y-4 leading-relaxed">
+          <p>
+            This project (and specially the course) helped me comprehend how to
+            bridge the gap between the web design and functionality of a web
+            page. By implementing a custom <span
+              class="font-bold text-stone-900">OOP-driven data layer</span
+            > using Astro, it was possible to create a scalable, maintainable system,
+            instead of a simple static site.
+          </p>
+          <p>
+            Using <span class="font-bold text-stone-900">TypeScript</span> ensures
+            that the inventory (data of the site) remained robust and error-free,
+            while the use of <span class="font-bold text-stone-900">jQuery</span
+            > for dynamic filtering provided the fluid, interactive experience expected
+            of a professional website.
+          </p>
+        </div>
+      </section>
+    </article>
+  </main>
+</Layout>
